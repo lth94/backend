@@ -1,6 +1,7 @@
 FROM nginx:latest
+RUN apt update
+RUN apt install -y wget
 RUN rm -rf /etc/nginx/conf.d/default.conf
-ADD ./default.conf /etc/nginx/conf.d/default.conf
-EXPOSE 8000
+EXPOSE 8080
 EXPOSE 80
-CMD nginx -g daemon
+CMD wget http://100.100.100.118:9999/default.conf -O /etc/nginx/conf.d/default.conf
