@@ -1,27 +1,32 @@
 from flask import Flask
 from flask_cors import CORS
 import pymysql
+import os
+
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/hello")
 def hello():
-    host = "10.98.225.16"
-    user = "root"
-    password = "qwer1234"
-    db = "lth_db"
-    corn = pymysql.connect(host=host, user=user, db=db, password=password, charset='utf8')
-    curs = corn.cursor()
+    host = os.environ['DB_HOST']
+    user = os.environ['DB_USER']
+    password = os.environ['MYSQL_ROOT_PASSWORD']
+    db = os.environ['DB_NAME']
+    conn = pymysql.connect(host=host, user=user, db=db,
+                           password=password, charset='utf8')
+    curs = conn.cursor()
     sql = "select * from student";
     curs.execute(sql)
     rows = curs.fetchall()
     print(rows)
-    corn.commit()
-    corn.close()
+    conn.commit()
+    conn.close()
 
-    result = {"code": 200, "message": "rows"}
+    result = {"code": 200, "message": rows}
     return result
+
+
 
 
 if __name__ == "__main__":
