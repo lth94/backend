@@ -1,7 +1,8 @@
-FROM nginx:latest
-RUN apt update
-RUN apt install -y wget
-RUN rm -rf /etc/nginx/conf.d/default.conf
-EXPOSE 8080
-EXPOSE 80
-CMD wget http://100.100.100.118:9999/default.conf -O /etc/nginx/conf.d/default.conf && nginx -g daemon off;
+FROM python:3.9
+WORKDIR /apps
+ADD requirements.txt /apps/
+RUN pip install -r /apps/requirements.txt
+RUN pip install --upgrade pip && pip install gunicorn
+ADD *.py /apps/
+EXPOSE 8000
+CMD /usr/local/bin/gunicorn --bind 0.0.0.0:8000 wsgi:app
