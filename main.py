@@ -8,14 +8,12 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/hello")
 def hello():
-    result{
-        corn = pymysql.connect(
-            host='mysql-svc',
-            user='root',
-            password='qwer1234',
-            db='lth_db',
-            charset='utf8')
-
+    result = {
+        host = "mysql-svc"
+        user = "root"
+        password = "qwer1234"
+        db = "lth_db"
+        corn = pymysql.connect(host=host, user=user, db=db, password=password, charset='utf8')
         curs = corn.cursor()
         sql = "select * from student";
         curs.execute(sql)
@@ -23,7 +21,8 @@ def hello():
         print(rows)
         corn.commit()
         corn.close()
-        }
+
+    }
 
     return result
 
