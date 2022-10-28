@@ -3,18 +3,18 @@ kind: Deployment
 metadata:
  name: backend-deployment
  labels:
-   type: was
+   type: web
    app: backend
 spec:
  selector:
    matchLabels:
-    type: was
+    type: web
     app: backend
  replicas: 2
  template:
    metadata:
      labels:
-       type: was
+       type: web
        app: backend
    spec:
     containers:
